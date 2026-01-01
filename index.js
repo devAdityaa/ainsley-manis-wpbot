@@ -97,7 +97,8 @@ const COOLDOWN_MS = Number(process.env.COOLDOWN_MS || 8000);
 
 const PRICE_IMAGES = parseCsvList(process.env.PRICE_IMAGES);
 const REVIEW_IMAGES = parseCsvList(process.env.REVIEW_IMAGES);
-const BENEFITS_IMAGES = parseCsvList(process.env.BENEFITS_IMAGES); // <-- NEW
+const BENEFITS_IMAGES = parseCsvList(process.env.BENEFITS_IMAGES); 
+const PAYMENT_QR_IMAGE = process.env.PAYMENT_QR_IMAGE;
 const ALLOWLIST = parseCsvList(process.env.ALLOWLIST).map(normalizePhone);
 
 log("info", "Bot starting with config", {
@@ -439,7 +440,7 @@ async function handleWebhookResponse({ message, waChatId, userId, n8nData, trace
   const paymentQrFlag = !!flags.paymentQr;
 
 
-  const activeFlags = [priceFlag, learnFlag, reviewsFlag].filter(Boolean).length;
+  const activeFlags = [priceFlag, learnFlag, reviewsFlag, paymentQrFlag ].filter(Boolean).length;
   if (activeFlags > 1) {
     log("warn", "Multiple intent flags true; applying priority price > learn > reviews", {
       traceId,
@@ -479,6 +480,7 @@ async function handleWebhookResponse({ message, waChatId, userId, n8nData, trace
     priceFlag,
     learnFlag,
     reviewsFlag,
+    paymentQrFlag,
     replyLen: safeReply.length,
     replyPreview: safeReply.slice(0, 180),
     priceImages,
