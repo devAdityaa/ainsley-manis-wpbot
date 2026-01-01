@@ -436,6 +436,8 @@ async function handleWebhookResponse({ message, waChatId, userId, n8nData, trace
   const priceFlag = !!flags.priceListOrPromoOffers;
   const learnFlag = !!flags.benefitsAvailable;
   const reviewsFlag = !!flags.userReviewsAndFeedbacks;
+  const paymentQrFlag = !!flags.paymentQr;
+
 
   const activeFlags = [priceFlag, learnFlag, reviewsFlag].filter(Boolean).length;
   if (activeFlags > 1) {
@@ -513,6 +515,32 @@ async function handleWebhookResponse({ message, waChatId, userId, n8nData, trace
     log("info", "Action: Reviews reply sent", { traceId, userId });
     return;
   }
+
+  // 4) Payment QR flow
+if (paymentQrFlag) {
+  log("info", "Action: Payment QR branch", { traceId, userId });
+
+  // 1️⃣ Send QR image
+  if (PAYMENT_QR_IMAGE) {
+    await sendImages(
+      waChatId,
+      [PAYMENT_QR_IMAGE],
+      { traceId, reason: "payment-qr" }
+    );
+  } else {
+    log("warn", "PAYMENT_QR_IMAGE not configured", { traceId });
+  }
+
+  // 2️⃣ Small human delay
+  await delayForHumanFeel(safeReply, { traceId });
+
+  // 3️⃣ Send payment instructions text
+  await client.sendMessage(waChatId, safeReply);
+
+  log("info", "Action: Payment QR sent", { traceId, userId });
+  return;
+}
+
 
   // Default: reply only
   log("info", "Action: Default reply", { traceId, userId });
