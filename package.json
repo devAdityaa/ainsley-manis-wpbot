@@ -3,19 +3,20 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "node index"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index"
     },
     "author": "",
     "license": "ISC",
     "description": "",
     "dependencies": {
-      "dotenv": "^17.2.3",
-      "node-fetch": "^2.7.0",
-      "puppeteer": "^24.32.0",
-      "qrcode-terminal": "^0.12.0",
-      "uuid": "^13.0.0",
-      "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js"
+        "dotenv": "^17.2.3",
+        "express": "^5.2.1",
+        "form-data": "^4.0.5",
+        "node-fetch": "^2.7.0",
+        "puppeteer": "^24.32.0",
+        "qrcode-terminal": "^0.12.0",
+        "uuid": "^13.0.0",
+        "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js"
     }
-  }
-  
+}
